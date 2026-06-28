@@ -13,17 +13,16 @@ import errorHandler from "./middlewares/errorHandler.js";
 
 import wishlistRoutes from "./routes/wishlist.routes.js";
 
+import cartRoutes from "./routes/cart.routes.js";
+
+import ordersRoutes from "./routes/orders.routes.js";
+
 
 const app = express();
 
 // Seguridad
 app.use(cors());
 app.use(helmet());
-
-app.use(
-  "/api/wishlist",
-  wishlistRoutes
-);
 
 // Limitador de peticiones
 const limiter = rateLimit({
@@ -35,6 +34,7 @@ const limiter = rateLimit({
   },
 });
 
+// Limitador
 app.use(limiter);
 
 // Middleware para JSON
@@ -46,7 +46,9 @@ app.use(indexRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
-
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/orders", ordersRoutes);
 // Middleware para rutas no encontradas
 app.use(notFound);
 
