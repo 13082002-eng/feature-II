@@ -50,7 +50,18 @@ export const getProduct = async (req, res, next) => {
 // POST /api/products
 export const createNewProduct = async (req, res, next) => {
   try {
-    const product = await createProduct(req.body);
+    const productData = {
+  ...req.body,
+    price: parseFloat(req.body.price),
+    stock: parseInt(req.body.stock)
+};
+
+    // Si se ha subido una imagen a Cloudinary
+    if (req.file) {
+      productData.imageUrl = req.file.path;
+    }
+
+    const product = await createProduct(productData);
 
     res.status(201).json({
       ok: true,

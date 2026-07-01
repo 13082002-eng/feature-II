@@ -16,6 +16,8 @@ import {
   createProductReview,
 } from "../controllers/reviews.controller.js";
 
+import upload from "../middlewares/upload.js";
+
 const router = Router();
 
 // Obtener todos los productos (Público)
@@ -39,6 +41,7 @@ router.post(
   "/",
   authenticate,
   requireRole("ADMIN"),
+  upload.single("image"),
   createNewProduct
 );
 
